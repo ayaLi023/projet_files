@@ -61,7 +61,44 @@ void defiler ( file* f ,int x ){
     // liberation de la memoire du noeud de tete 
     free(tmp);
 }
-int main (){
-printf (" utiliser les fonctions primitives pour votre projet\n ");
+int rechercherValeur(file f, int val) {
+    noeud* tmp = f.tete;
+    int pos = 0;
+
+    while (tmp != NULL) {
+        if (tmp->info == val) {
+            return pos;
+        }
+        tmp = tmp->suiv;
+        pos++;
+    }
+
+    return -1; // La valeur n'est pas trouvée
+}
+void afficherfile(file f){
+    if (filevide(f)){
+        printf("la file est vide \n ");
+    }
+    printf ("contenu de la file :\n");
+    noeud* tmp=f.tete;
+    while (tmp!=NULL){
+        printf ("%d",tmp->info);
+        tmp=tmp->suiv;
+    }
+    printf("\n");
+}
+int main() {
+   file f= initfile();
+ enfiler(&f,10);
+    enfiler(&f, 20);
+    enfiler(&f, 30);
+    enfiler(&f,40);
+enfiler(&f, 50);
+    enfiler(&f,60);
+  defiler(&f,20);
+    defiler(&f,30);
+      defiler(&f,40);
+    defiler(&f,50);
+afficherfile(f);
 return 0;
 }
