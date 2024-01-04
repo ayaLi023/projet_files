@@ -67,7 +67,7 @@ int chercherValeur(file *f, int val) {
     int pos=1;
     while (tmp != NULL) {
         if (tmp->info == val) {
-            printf("La valeur %d a été trouvée dans la file.\n", val);
+            printf("La valeur %d a ete trouvee dans la file.\n", val);
             return pos ;  // La valeur a été trouvée
         }
         tmp =tmp->suiv;
@@ -85,44 +85,47 @@ int chercherValeur(file *f, int val) {
         printf ("\n");
     }
 int main() {
-    file f ;
-    initfile(&f);
-srand(time(NULL));// initialiser
-    for (int i = 0; i < 10; i++) {
-        // enfiler une  valeur aleatoire 
-if (rand() % 2==0){
-    int x =rand()%100+1;// x = randomval
-        enfiler(&f, x);
-        printf("enfiler :%d\n",x);
-    }
+    file f=initfile();
 
-    // defiler aleatoirement 
-    if (rand()%2==0){
-        defiler (&f);
-        printf("defiler\n");
-    }
-// recherche  dune valeur enter par l'utilisateur  
-int val 
-printf ("donner une valeur a rechercher dans la file :\n");
-scanf ("%d",&val);
-int position = chercherValeur(&f.val);
-if (position != -1){
-    printf (" la valeur %d a ete trouver a la position %d .\n",val,position);
-}
-else {
-    printf (" la valeur %d n'a pas ete trouver dans la file .\n");
+    srand(time(NULL)); 
+int i ;
+    for (i = 0; i < 10; i++) {
+        // Enfiler une valeur aléatoire
+        if (rand() % 2 == 0) {
+            int val = rand() % 10+ 1;
+            enfiler(&f,val);
+            printf("Enfiler : %d\n",val);
+        }
 
-}
-// afficher la file apres chaque operation 
-affichfile(&f);
+        // Défiler aléatoirement
+        if (rand() % 2 == 0) {
+            int val = rand() % 10+ 1;
+            defiler(&f,val);
+            printf("defiler\n");
+        }
+
+        // Rechercher une valeur aléatoire
+        
+        int position = chercherValeur (&f, rand() % 50 + 1);
+
+        if (position != -1) {
+            printf("La valeur %d a ete trouvee a la position %d.\n",chercherValeur,position);
+        } else {
+            printf("La valeur %d n'a pas ete trouvee dans la file.\n",chercherValeur);
+        }
+
+        // Afficher la file après chaque opération
+        affichfile(&f);
         printf("\n");
     }
-    // Libérer la mémoire utilisée par la file a la fin du programme 
-    noeud *tmp = f.tete;
+
+    // Libérer la mémoire occupée par la file à la fin du programme
+    noeud* tmp = f.tete;
+
     while (tmp != NULL) {
-        noeud *suiv = tmp->suiv;
+       noeud* suiv = tmp->suiv;
         free(tmp);
-        tmp = suiv;
+        tmp= suiv ;
     }
 
     return 0;
