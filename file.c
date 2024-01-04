@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 // definition de la structure d`un noeud 
 typedef struct noeud {
     int info ;
@@ -61,44 +62,52 @@ void defiler ( file* f ,int x ){
     // liberation de la memoire du noeud de tete 
     free(tmp);
 }
-int rechercherValeur(file f, int val) {
-    noeud* tmp = f.tete;
-    int pos = 0;
-
+int chercherValeur(file *f, int val) {
+    noeud *tmp = f->tete;
+    int pos=1;
     while (tmp != NULL) {
         if (tmp->info == val) {
-            return pos;
+            printf("La valeur %d a été trouvée dans la file.\n", val);
+            return pos ;  // La valeur a été trouvée
         }
-        tmp = tmp->suiv;
+        tmp =tmp->suiv;
         pos++;
+    } 
+    return -1;// la valeur n'existe pas 
+    }
+    // afficher la file 
+    void affichfile(file*f){
+        noeud*tmp=f->tete;
+        while (tmp!=NULL){
+            printf ("%d",tmp->info);
+            tmp=tmp->suiv;// indique la fin de file 
+        }
+        printf ("\n");
+    }
+int main() {
+    file f ;
+    initfile(&f);
+srand(time(NULL));// initialiser
+    for (int i = 0; i < 10; i++) {
+        // enfiler une  valeur aleatoire 
+if (rand)
+        int x = rand() % 100;  // Valeur aléatoire
+        enfiler(&f, x);
     }
 
-    return -1; // La valeur n'est pas trouvée
-}
-void afficherfile(file f){
-    if (filevide(f)){
-        printf("la file est vide \n ");
+    int valRecherchee;
+    printf("Entrez la valeur que vous souhaitez rechercher dans la file : ");
+    scanf("%d", &valRecherchee);
+
+    chercherValeur(&f, valRecherchee);
+
+    // Libérer la mémoire utilisée par la file
+    noeud *tmp = f.tete;
+    while (tmp != NULL) {
+        noeud *suiv = tmp->suiv;
+        free(tmp);
+        tmp = suiv;
     }
-    printf ("contenu de la file :\n");
-    noeud* tmp=f.tete;
-    while (tmp!=NULL){
-        printf ("%d",tmp->info);
-        tmp=tmp->suiv;
-    }
-    printf("\n");
-}
-int main() {
-   file f= initfile();
- enfiler(&f,10);
-    enfiler(&f, 20);
-    enfiler(&f, 30);
-    enfiler(&f,40);
-enfiler(&f, 50);
-    enfiler(&f,60);
-  defiler(&f,20);
-    defiler(&f,30);
-      defiler(&f,40);
-    defiler(&f,50);
-afficherfile(f);
-return 0;
+
+    return 0;
 }
