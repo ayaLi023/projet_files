@@ -90,18 +90,34 @@ int main() {
 srand(time(NULL));// initialiser
     for (int i = 0; i < 10; i++) {
         // enfiler une  valeur aleatoire 
-if (rand)
-        int x = rand() % 100;  // Valeur aléatoire
+if (rand() % 2==0){
+    int x =rand()%100+1;// x = randomval
         enfiler(&f, x);
+        printf("enfiler :%d\n",x);
     }
 
-    int valRecherchee;
-    printf("Entrez la valeur que vous souhaitez rechercher dans la file : ");
-    scanf("%d", &valRecherchee);
+    // defiler aleatoirement 
+    if (rand()%2==0){
+        defiler (&f);
+        printf("defiler\n");
+    }
+// recherche  dune valeur enter par l'utilisateur  
+int val 
+printf ("donner une valeur a rechercher dans la file :\n");
+scanf ("%d",&val);
+int position = chercherValeur(&f.val);
+if (position != -1){
+    printf (" la valeur %d a ete trouver a la position %d .\n",val,position);
+}
+else {
+    printf (" la valeur %d n'a pas ete trouver dans la file .\n");
 
-    chercherValeur(&f, valRecherchee);
-
-    // Libérer la mémoire utilisée par la file
+}
+// afficher la file apres chaque operation 
+affichfile(&f);
+        printf("\n");
+    }
+    // Libérer la mémoire utilisée par la file a la fin du programme 
     noeud *tmp = f.tete;
     while (tmp != NULL) {
         noeud *suiv = tmp->suiv;
