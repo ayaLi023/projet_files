@@ -92,9 +92,11 @@ int i ;
     for (i = 0; i < 10; i++) {
         // Enfiler une valeur aléatoire
         if (rand() % 2 == 0) {
-            int val = rand() % 10+ 1;
+            int val,val2,val3 = rand() % 10+ 1;
             enfiler(&f,val);
-            printf("Enfiler : %d\n",val);
+            enfiler (&f,val2);
+             enfiler (&f,val3);
+            printf("Enfiler : %d %d %d \n",val,val2,val3);
         }
 
         // Défiler aléatoirement
@@ -104,15 +106,18 @@ int i ;
             printf("defiler\n");
         }
 
-        // Rechercher une valeur aléatoire
-        
-        int position = chercherValeur (&f, rand() % 50 + 1);
-
-        if (position != -1) {
-            printf("La valeur %d a ete trouvee a la position %d.\n",chercherValeur,position);
-        } else {
-            printf("La valeur %d n'a pas ete trouvee dans la file.\n",chercherValeur);
+        // Rechercher une valeur specifique saisie par l'utilisateur 
+        int valeur ;
+        printf (" entrer la valeur rechercher ");
+        scanf ("%d",&valeur);
+        if(chercherValeur(&f,valeur)==1);
+        { printf ("la valeur %d a ete trouver .\n",valeur);
         }
+        else {
+            printf (" la valeur %d na pas ete trouver .\n",valeur);
+        }
+
+        
 
         // Afficher la file après chaque opération
         affichfile(&f);
