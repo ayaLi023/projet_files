@@ -97,9 +97,9 @@ int chercherValeur(File *file, int valeur) {
     }
     // Fonction pour dessiner la file
 void dessinerFile(File* file) {
-    int startX = 100;
+    int startX = 200;
     int startY = 200;
-    int espacement = 60;
+    int espacement = 50;
 
     noeud* actuel = file->tete;
 
@@ -129,7 +129,7 @@ int main() {
     InitWindow(largeurEcran, hauteurEcran, "VISUALISATION- DE FILE AVEC RAYLIB");
 
     // Taille maximale de la file
-    int tailleMax = 5;
+    int tailleMax = 10;
     File* file = FileVide(tailleMax);
 
     SetTargetFPS(8);
