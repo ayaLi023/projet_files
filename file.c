@@ -99,13 +99,13 @@ int chercherValeur(File *file, int valeur) {
 void dessinerFile(File* file) {
     int startX = 200;
     int startY = 200;
-    int espacement = 50;
+    int espacement = 41;
 
     noeud* actuel = file->tete;
 
     while (actuel != NULL) {
         DrawRectangle(startX, startY, 40, 40, PURPLE);
-        DrawText(TextFormat("%d", actuel->donnee), startX + 15, startY + 15, 10, BLACK);
+        DrawText(TextFormat("%d", actuel->donnee), startX + 20, startY + 20, 8, BLACK);
 
         startX += espacement;
         actuel = actuel->suiv;
@@ -132,23 +132,23 @@ int main() {
     int tailleMax = 10;
     File* file = FileVide(tailleMax);
 
-    SetTargetFPS(8);
+    SetTargetFPS(6);
      while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        // Enfiler et défiler à des fins de démonstration
+        // Enfiler et défiler
         enfiler(file, GetRandomValue(0, 20));
-        if (GetRandomValue(0, 100) < 15) {
+        if (GetRandomValue(0, 20) < 15) {
             defiler(file);
-            chercherValeur(file, GetRandomValue(0, 5));
+            chercherValeur(file, GetRandomValue(0, 20));
         }
 
         // Dessiner la file
         dessinerFile(file);
 
         // Afficher la taille de la file
-        DrawText(TextFormat("Taille de la file: %d", CountNodes(file)), 10, 10, 20, BLACK);
+        DrawText(TextFormat("Taille de la file: %d", CountNodes(file)), 12, 12, 20, BLACK);
 
         EndDrawing();
     }
