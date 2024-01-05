@@ -1,138 +1,159 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<time.h>
+#include "raylib.h"
+
 // definition de la structure d`un noeud 
 typedef struct noeud {
-    int info ;
+    int donnee;
     struct noeud* suiv ;
 }noeud ;
 // definition d`une structure pour la file 
-typedef struct file {
+typedef struct File {
     noeud* tete ;
     noeud* queue ;
-}file;
+    int tailleMax;//la taille maximale de la file 
+}File;
+// FONCTION POUR CREER UN NOUVEAU NOEUD 
+noeud* creerNoeud(int donnee) {
+    noeud* nouveauNoeud = (noeud*)malloc(sizeof(noeud));
+    nouveauNoeud->donnee = donnee;
+    nouveauNoeud->suiv = NULL;
+    return nouveauNoeud;
+}
+// fonction pour creer une  file vide avec une taille max 
+File* FileVide (int tailleMax ){
+   File* file = (File*)malloc(sizeof(File));
+    file->tete = file->queue = NULL;
+    file->tailleMax = tailleMax;
+    return file;
+}
 // initialisation  d`une file vide 
-file initfile (){
-    file f ;
-    f.tete=NULL;
-    f.queue=NULL;
-    return f ;
+File initfile (int tailleMax){
+    File file ;
+    file.tete=NULL;
+    file.queue=NULL;
+    file.tailleMax=tailleMax;
+    return file ;
 }
-// fonction pour verifier si la file est vide 
-int filevide (file f ){
-    return f.tete==NULL && f.queue==NULL ;
-}
+
 // fonction pour consulter la valeur en tete de file 
-int tetefile (file f){
-return f.tete ->info;
-}
-// fonction pour enfiler un element dans la file 
-void enfiler ( file *f , int x ){
-    // creation d`un nouveau noeud 
-    noeud* tmp = malloc (sizeof(noeud));
-    tmp->info = x;
-    tmp->suiv=NULL;
-    // cas ou la file est vide 
-    if (filevide(*f)==1)
-    {
-        f->tete=tmp;
-        f->queue=tmp;
-    }
-    else  // ajouter a la fin  de file 
-    {
-        f->queue->suiv=tmp;
-        f->queue=tmp;
+int teteFile (File* file){
+ if (file->tete != NULL) {
+        return file->tete->donnee;
+    } else {
+       
+        return -1; // file vide
     }
 }
-//fonction pour difeler la file 
-void defiler ( file* f ,int x ){
-    noeud *tmp ;
-    // recuperer la valeur en tete de file 
-6    x=f->tete->info;
-    tmp=f->tete;
-    if (f->tete==f->queue)
-    {
-        f->tete=NULL;
-        f->queue=NULL;
+// fonction pour enfiler/ajouter  un element a la file 
+void enfiler ( File *file , int donnee){
+   if (file->queue == NULL) 
+   {// Si la file est vide
+        file->tete = file->queue = creerNoeud(donnee);
+    } else
+        if (file->tailleMax > 0 && file->tailleMax == CountNodes(file)) {
+        // Si la file atteint sa taille maximale, retirer l'element en tete
+        defiler(file);
+        // Enfiler le nouveau nœud
+        enfiler(file, donnee);
+    } else {
+        // Ajouter le nouveau nœud à la fin de la file
+        file->queue->suiv = creerNoeud(donnee);
+        file->queue = file->queue->suiv;
     }
-    else {
-        // supression de noeud en tete 
-        f->tete=f->tete->suiv;
-    }
-    // liberation de la memoire du noeud de tete 
-    free(tmp);
 }
-int chercherValeur(file *f, int val) {
-    noeud *tmp = f->tete;
+//fonction pour difeler/supprimer un element de la file 
+void defiler ( File* file ){
+   if (file->tete == NULL) {
+        // Si la file est vide
+        return -1;
+}
+// Retirer le nœud de la file
+    noeud* temp = file->tete;
+    int donnee = temp->donnee;
+
+    file->tete = temp->suiv;
+    free(temp);
+
+    // Si la file devient vide, mettre à jour le pointeur de l'arrière
+    if (file->tete == NULL) {
+        file->queue = NULL;
+    }
+
+    return donnee;
+}
+
+int chercherValeur(File *file, int valeur) {
+    noeud *temp = file->tete;
     int pos=1;
-    while (tmp != NULL) {
-        if (tmp->info == val) {
-            printf("La valeur %d a ete trouvee dans la file.\n", val);
+    while (temp != NULL) {
+        if (temp->donnee == valeur) {
             return pos ;  // La valeur a été trouvée
         }
-        tmp =tmp->suiv;
+        temp =temp->suiv;
         pos++;
     } 
     return -1;// la valeur n'existe pas 
     }
-    // afficher la file 
-    void affichfile(file*f){
-        noeud*tmp=f->tete;
-        while (tmp!=NULL){
-            printf ("%d",tmp->info);
-            tmp=tmp->suiv;// indique la fin de file 
-        }
-        printf ("\n");
+    // Fonction pour dessiner la file
+void dessinerFile(File* file) {
+    int startX = 100;
+    int startY = 200;
+    int espacement = 60;
+
+    noeud* actuel = file->tete;
+
+    while (actuel != NULL) {
+        DrawRectangle(startX, startY, 40, 40, PURPLE);
+        DrawText(TextFormat("%d", actuel->donnee), startX + 15, startY + 15, 10, BLACK);
+
+        startX += espacement;
+        actuel = actuel->suiv;
     }
+}
+// Fonction pour compter le nombre de nœuds dans la file
+int CountNodes(File* file) {
+    int count = 0;
+    noeud* temp = file->tete;
+    while (temp != NULL) {
+        count++;
+        temp = temp->suiv;
+    }
+    return count;
+}
+
 int main() {
-    file f=initfile();
+    const int largeurEcran = 800;
+    const int hauteurEcran = 600;
 
-    srand(time(NULL)); 
-int i ;
-    for (i = 0; i < 10; i++) {
-        // Enfiler une valeur aléatoire
-        if (rand() % 2 == 0) {
-            int val,val2,val3 = rand() % 10+ 1;
-            enfiler(&f,val);
-            enfiler (&f,val2);
-             enfiler (&f,val3);
-            printf("Enfiler : %d %d %d \n",val,val2,val3);
+    InitWindow(largeurEcran, hauteurEcran, "VISUALISATION- DE FILE AVEC RAYLIB");
+
+    // Taille maximale de la file
+    int tailleMax = 5;
+    File* file = FileVide(tailleMax);
+
+    SetTargetFPS(8);
+     while (!WindowShouldClose()) {
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+        // Enfiler et défiler à des fins de démonstration
+        enfiler(file, GetRandomValue(0, 20));
+        if (GetRandomValue(0, 100) < 15) {
+            defiler(file);
+            chercherValeur(file, GetRandomValue(0, 5));
         }
 
-        // Défiler aléatoirement
-        if (rand() % 2 == 0) {
-            int val = rand() % 10+ 1;
-            defiler(&f,val);
-            printf("defiler\n");
-        }
+        // Dessiner la file
+        dessinerFile(file);
 
-        // Rechercher une valeur specifique saisie par l'utilisateur 
-        int valeur ;
-        printf (" entrer la valeur rechercher ");
-        scanf ("%d",&valeur);
-        if(chercherValeur(&f,valeur)==1)
-        { 
-            printf ("la valeur %d a ete trouver .\n",valeur);
-        }
-        else {
-            printf (" la valeur %d na pas ete trouver .\n",valeur);
-        }
+        // Afficher la taille de la file
+        DrawText(TextFormat("Taille de la file: %d", CountNodes(file)), 10, 10, 20, BLACK);
 
-        
-
-        // Afficher la file après chaque opération
-        affichfile(&f);
-        printf("\n");
+        EndDrawing();
     }
 
-    // Libérer la mémoire occupée par la file à la fin du programme
-    noeud* tmp = f.tete;
-
-    while (tmp != NULL) {
-       noeud* suiv = tmp->suiv;
-        free(tmp);
-        tmp= suiv ;
-    }
+    CloseWindow();
 
     return 0;
 }
