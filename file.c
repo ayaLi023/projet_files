@@ -137,7 +137,7 @@ int main() {
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        // Enfiler et défiler à des fins de démonstration
+        // Enfiler et défiler
         enfiler(file, GetRandomValue(0, 20));
         if (GetRandomValue(0, 100) < 15) {
             defiler(file);
