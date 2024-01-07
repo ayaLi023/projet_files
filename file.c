@@ -96,8 +96,6 @@ void defiler ( File* file ){
 }
 // Retirer le nœud de la file
     noeud* temp = file->tete;
-    int donnee = temp->donnee;
-
     file->tete = temp->suiv;
     free(temp);
  // Mettre à jour la position de la queue
@@ -129,7 +127,7 @@ int chercherValeur(File *file, int valeur) {
     return -1;// la valeur n'existe pas 
     }
     // Fonction pour dessiner la file
-void dessinerFile(File* file) {
+void dessinerFile(File* file, int valeurRecherchee) {
     int startX = 200;
     int startY = 200;
     int espacement = 42;
