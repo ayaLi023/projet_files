@@ -89,11 +89,8 @@ void enfiler ( File *file , int donnee){
     }
 
 //fonction pour difeler/supprimer un element de la file 
-void defiler ( File* file ){
-   if (file->tete == NULL) {
-        // Si la file est vide
-        return -1;
-}
+void defiler (File* file ){
+
 // Retirer le nœud de la file
     noeud* temp = file->tete;
     file->tete = temp->suiv;
@@ -113,18 +110,12 @@ void defiler ( File* file ){
          file->tetePosition = (Vector2){0,0}; // Mettez à jour la position de la tête
     }
 }
-// Fonction pour rechercher une valeur dans la file et retourner sa position
-int chercherValeur(File *file, int valeur) {
-    noeud *temp = file->tete;
-    int pos=1;
-    while (temp != NULL) {
-        if (temp->donnee == valeur) {
-            return pos ;  // La valeur a été trouvée
-        }
-        temp =temp->suiv;
-        pos++;
+// Fonction pour rechercher une valeur 
+bool chercherValeur(File *file, int valeur) {
+   if (file->tete!= NULL && file->tete->donnee==valeur){
+            return true ;  // La valeur a été trouvée 
     } 
-    return -1;// la valeur n'existe pas 
+    return false;// la valeur n'existe pas 
     }
     // Fonction pour dessiner la file
 void dessinerFile(File* file, int valeurRecherchee) {
@@ -197,18 +188,15 @@ int main() {
         // Enfiler et défiler
         enfiler(file, GetRandomValue(0, 20));
         if (GetRandomValue(0, 20) < 15) {
-           // Détecter si une touche numérique est enfoncée pour rechercher une valeur
-        for (int key = KEY_ZERO; key <= KEY_NINE; key++) {
-            if (IsKeyDown(key)) {
-               int valeurRecherchee = key - KEY_ZERO;   // Convertir la touche en valeur numérique
-
-            int position =chercherValeur(file, valeurRecherchee);
-            // Afficher le résultat de la recherche
-                if (position != -1) {
-                    DrawText("La valeur existe dans la file!", 100, 300, 25, GREEN);
-                } else {
-                    DrawText("La valeur n'existe pas dans la file!", 100, 300, 25, RED);
-                }
+        defiler(file);
+          int valeurRecherchee = GetRandomValue(0, 20);
+          bool valeurTrouvee=
+            chercherValeur(file, valeurRecherchee);
+            if (valeurTrouvee) {
+                DrawText(TextFormat("La valeur %d a été trouvée dans la file!", valeurRecherchee), 20, 300, 20.5, GREEN);
+            } else {
+                DrawText(TextFormat("La valeur %d n'a pas été trouvée dans la file.", valeurRecherchee), 20, 300, 20.5, RED);
+            }
             // Dessiner la file avec mise en surbrillance de la valeur recherchee
             dessinerFile(file, valeurRecherchee);
         } else {
