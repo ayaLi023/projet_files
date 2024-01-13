@@ -127,8 +127,8 @@ void dessinerFile(File* file, int valeurRecherchee) {
 
     while (actuel != NULL) {
            if (actuel->donnee == valeurRecherchee && actuel == file->tete) {
-            // dessiner un cadre rouge autour de la valeur recherchee
-            DrawRectangle(startX - 5, startY - 5, 50, 50, RED);
+            // dessiner un cadre autour de la valeur recherchee
+            DrawRectangle(startX - 5, startY - 5, 50, 50, GREEN);
         }
         DrawRectangle(startX, startY, 40, 40, PURPLE);
         DrawText(TextFormat("%d", actuel->donnee), startX + 20, startY + 20, 8, BLACK);
