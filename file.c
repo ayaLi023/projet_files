@@ -197,9 +197,18 @@ int main() {
         // Enfiler et défiler
         enfiler(file, GetRandomValue(0, 20));
         if (GetRandomValue(0, 20) < 15) {
-            defiler(file);
-          int valeurRecherchee = GetRandomValue(0, 20);
-            chercherValeur(file, valeurRecherchee);
+           // Détecter si une touche numérique est enfoncée pour rechercher une valeur
+        for (int key = KEY_ZERO; key <= KEY_NINE; key++) {
+            if (IsKeyDown(key)) {
+               int valeurRecherchee = key - KEY_ZERO;   // Convertir la touche en valeur numérique
+
+            int position =chercherValeur(file, valeurRecherchee);
+            // Afficher le résultat de la recherche
+                if (position != -1) {
+                    DrawText("La valeur existe dans la file!", 100, 300, 25, GREEN);
+                } else {
+                    DrawText("La valeur n'existe pas dans la file!", 100, 300, 25, RED);
+                }
             // Dessiner la file avec mise en surbrillance de la valeur recherchee
             dessinerFile(file, valeurRecherchee);
         } else {
