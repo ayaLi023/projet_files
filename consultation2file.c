@@ -218,7 +218,7 @@ int main() {
         // Afficher la taille de la file
         DrawText(TextFormat("Taille de la file: %d", CountNodes(file)), 12, 12, 20, BLACK);
 DrawText("La valeur recherchée égale a un élément de la File sera encadrée", 20, 100, 20, GRAY);
-         DrawText("Appuyez sur les touches numériques (0-9) pour rechercher une valeur dans la file", 20, 50, 20, GRAY);
+         DrawText("Appuyez sur les touches numériques (0-9) pour rechercher une valeur ", 20, 50, 20, GRAY);
     }
 EndDrawing();
     }
