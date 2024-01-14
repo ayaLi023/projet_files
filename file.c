@@ -27,7 +27,7 @@ File* FileVide (int tailleMax ){
    File* file = (File*)malloc(sizeof(File));
     file->tete = file->queue = NULL;
     file->tailleMax = tailleMax;
-    file->tetePosition = (Vector2){0,0};
+    file->tetePosition = (Vector2){0,0};//  vecteur 2D  x=0 et y=0 
     file->queuePosition = (Vector2){0, 0};
     return file;
 }
@@ -64,7 +64,7 @@ void enfiler ( File *file , int donnee){
    if (file->queue == NULL) 
    {// Si la file est vide
         file->tete = file->queue = creerNoeud(donnee);
-         file->tetePosition = (Vector2){200, 200}; // Mettez à jour la position de la tête
+         file->tetePosition = (Vector2){200, 200}; // Mettez à jour la position de la tête  x=200   et y=200  initialiser on une seul ligne 
         file->queuePosition = (Vector2){200, 200}; // Mettez à jour la position de la queue
     } else
         if (file->tailleMax > 0 && file->tailleMax == CountNodes(file)) {
@@ -77,8 +77,8 @@ void enfiler ( File *file , int donnee){
         file->queue->suiv = creerNoeud(donnee);
         file->queue = file->queue->suiv;
          // Mettre à jour la position de la queue
-        int startX = 200;
-        int espacement = 42;
+        int startX = 200;// stocker la position horizontal de depart d'une file 
+        int espacement = 42; // l'espace entre les element d'une file 
         noeud* temp = file->tete;
         while (temp != NULL) {
             startX += espacement;
@@ -127,11 +127,12 @@ void dessinerFile(File* file, int valeurRecherchee) {
 
     while (actuel != NULL) {
            if (actuel->donnee == valeurRecherchee && actuel == file->tete) {
-            // dessiner un cadre autour de la valeur recherchee
-            DrawRectangle(startX - 5, startY - 5, 50, 50, GREEN);
+            // dessiner un cadre autour de la valeur recherchee 
+            // la largeur et la hauteur de rectangle =50 
+             DrawRectangle(startX - 5, startY - 5, 50, 50, GREEN);
         }
         DrawRectangle(startX, startY, 40, 40, PURPLE);
-        DrawText(TextFormat("%d", actuel->donnee), startX + 20, startY + 20, 8, BLACK);
+        DrawText(TextFormat("%d", actuel->donnee), startX + 20, startY + 20, 10, BLACK);
 
         startX += espacement;
         actuel = actuel->suiv;
